@@ -163,8 +163,8 @@ int main()
     const float simulationTimeStep = 1.0f / 60.0f;
     float accumulator = 0.0f;
     float factor      = 0.0f;
-    int fpsCount = 0;
-    std::stringstream fps;
+    int frames = 0;
+    int fps    = 0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -175,12 +175,11 @@ int main()
         lastTime = currentTime;
         accumulator += deltaTime;
         // fps counter
-        fpsCount++;
+        frames++;
         if ((currentTime - lastFPSTime) >= 1.0f)
         {
-            fps.str(std::string());
-            fps << fpsCount;
-            fpsCount = 0;
+            fps = frames;
+            frames = 0;
             lastFPSTime = currentTime;
         }
 
@@ -207,7 +206,7 @@ int main()
         Render(defaultShader, factor);
 
         // display FPS in window title
-        glfwSetWindowTitle(window, (Settings.WindowTitle + " - " + std::to_string(Objects.size()) + " Objects - FPS: " + fps.str()).c_str());
+        glfwSetWindowTitle(window, (Settings.WindowTitle + " - " + std::to_string(Objects.size()) + " Objects - FPS: " + std::to_string(fps)).c_str());
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
