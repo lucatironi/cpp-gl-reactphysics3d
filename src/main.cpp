@@ -364,7 +364,9 @@ void Render(const Shader& shader, float interpolationFactor)
 void Shoot()
 {
     Vector3 position(Camera.Position.x, Camera.Position.y, Camera.Position.z);
-    Object obj = CreateCube(position, Quaternion::identity(), 1.0f);
+    glm::vec3 cameraRotation = Camera.GetAngles();
+    Quaternion rotation = Quaternion::fromEulerAngles(cameraRotation.x, cameraRotation.y, cameraRotation.z);
+    Object obj = CreateCube(position, rotation, 1.0f);
     obj.rigidBody->setLinearVelocity(Vector3(Camera.Front.x, Camera.Front.y, Camera.Front.z) * 15.0f);
     Objects.push_back(obj);
 }
