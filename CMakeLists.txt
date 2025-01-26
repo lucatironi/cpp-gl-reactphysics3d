@@ -15,6 +15,7 @@ set(SOURCE_FILES
 set(HEADER_FILES
     inc/cube_model.hpp
     inc/fps_camera.hpp
+    inc/frustum_box.hpp
     inc/mesh.hpp
     inc/plane_model.hpp
     inc/shader.hpp
