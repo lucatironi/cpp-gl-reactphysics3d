@@ -307,7 +307,10 @@ Object CreateCube(const Vector3& position, const Quaternion& rotation, const flo
     Transform transform(position, rotation);
     BoxShape* boxShape = PhysicsManager.createBoxShape({ scale / 2.0f, scale / 2.0f, scale / 2.0f });
     RigidBody* rigidBody = World->createRigidBody(transform);
-    rigidBody->addCollider(boxShape, Transform::identity());
+    Collider* collider = rigidBody->addCollider(boxShape, Transform::identity());
+    Material& material = collider->getMaterial();
+    material.setBounciness(0.0);
+    material.setFrictionCoefficient(1.0);
 
     return Object{ .rigidBody = rigidBody, .prevTransform = transform, .scale = glm::vec3(scale), .model = Cube };
 }
@@ -322,7 +325,10 @@ void ResetWorld()
     BoxShape* boxShape = PhysicsManager.createBoxShape({ Settings.WorldSize / 2.0f, 5.0f, Settings.WorldSize / 2.0f });
     RigidBody* rigidBody = World->createRigidBody(transform);
     rigidBody->setType(BodyType::STATIC);
-    rigidBody->addCollider(boxShape, Transform({ 0.0f, -5.0f, 0.0f }, Quaternion::identity()));
+    Collider* collider = rigidBody->addCollider(boxShape, Transform({ 0.0f, -5.0f, 0.0f }, Quaternion::identity()));
+    Material& material = collider->getMaterial();
+    material.setBounciness(0.0);
+    material.setFrictionCoefficient(1.0);
     Objects.push_back({ .rigidBody = rigidBody, .prevTransform = transform, .scale = glm::vec3(1.0f), .model = Floor });
 }
 
