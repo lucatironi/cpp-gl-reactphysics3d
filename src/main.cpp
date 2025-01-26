@@ -342,22 +342,19 @@ void Render(const Shader& shader, float interpolationFactor)
         const auto& currTransform = object.rigidBody->getTransform();
 
         Transform interpolatedTransform = Transform::interpolateTransforms(object.prevTransform, currTransform, interpolationFactor);
-        const Vector3& position = interpolatedTransform.getPosition();
-        const Quaternion& rotation = interpolatedTransform.getOrientation();
+        object.prevTransform = currTransform;
 
-        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), { position.x, position.y, position.z });
-        glm::mat4 rotationMatrix = glm::mat4(1.0f);
-        rotationMatrix = glm::rotate(rotationMatrix, rotation.x, { 1.0f, 0.0f, 0.0f });
-        rotationMatrix = glm::rotate(rotationMatrix, rotation.y, { 0.0f, 1.0f, 0.0f });
-        rotationMatrix = glm::rotate(rotationMatrix, rotation.z, { 0.0f, 0.0f, 1.0f });
+        rp3d::decimal m[16];
+        interpolatedTransform.getOpenGLMatrix(m);
+        glm::mat4 translationRotationMatrix(m[0],  m[1],  m[2],  m[3],
+                                            m[4],  m[5],  m[6],  m[7],
+                                            m[8],  m[9],  m[10], m[11],
+                                            m[12], m[13], m[14], m[15]);
         glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), object.scale);
-
-        glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+        glm::mat4 modelMatrix = translationRotationMatrix * scaleMatrix;
 
         shader.SetMat4("model", modelMatrix);
         object.model->Draw(shader);
-
-        object.prevTransform = currTransform;
     }
 }
 
