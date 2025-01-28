@@ -2,13 +2,13 @@
 #include "cube_model.hpp"
 #include "fps_camera.hpp"
 #include "plane_model.hpp"
-#include "reactphysics3d/decimal.h"
 #include "shader.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <reactphysics3d/reactphysics3d.h>
+#include "reactphysics3d/decimal.h"
 
 #include <iostream>
 #include <random>
