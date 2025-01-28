@@ -2,6 +2,7 @@
 #include "cube_model.hpp"
 #include "fps_camera.hpp"
 #include "plane_model.hpp"
+#include "reactphysics3d/decimal.h"
 #include "shader.hpp"
 
 #include <glad/glad.h>
@@ -63,6 +64,8 @@ struct Settings
     float SpecularShininess = 32.0f;
     float SpecularIntensity = 0.5;
     int NumCubes = 100;
+    rp3d::decimal Bounciness = 0.0;
+    rp3d::decimal Friction = 1.0;
 } Settings;
 
 int main()
@@ -307,8 +310,8 @@ Object CreateCube(const Vector3& position, const Quaternion& rotation, const flo
     RigidBody* rigidBody = World->createRigidBody(transform);
     Collider* collider = rigidBody->addCollider(boxShape, Transform::identity());
     Material& material = collider->getMaterial();
-    material.setBounciness(0.0);
-    material.setFrictionCoefficient(1.0);
+    material.setBounciness(Settings.Bounciness);
+    material.setFrictionCoefficient(Settings.Friction);
 
     return Object{ .rigidBody = rigidBody, .prevTransform = transform, .scale = glm::vec3(scale), .model = Cube };
 }
@@ -325,8 +328,8 @@ void ResetWorld()
     rigidBody->setType(BodyType::STATIC);
     Collider* collider = rigidBody->addCollider(boxShape, Transform({ 0.0f, -5.0f, 0.0f }, Quaternion::identity()));
     Material& material = collider->getMaterial();
-    material.setBounciness(0.0);
-    material.setFrictionCoefficient(1.0);
+    material.setBounciness(Settings.Bounciness);
+    material.setFrictionCoefficient(Settings.Friction);
     Objects.push_back({ .rigidBody = rigidBody, .prevTransform = transform, .scale = glm::vec3(1.0f), .model = Floor });
 }
 
