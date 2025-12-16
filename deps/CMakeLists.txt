@@ -18,17 +18,20 @@ FetchContent_MakeAvailable(glfw)
 FetchContent_Declare(
     glad
     GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-    GIT_TAG v0.1.36
+    GIT_TAG v2.0.8
     GIT_PROGRESS TRUE
-    GIT_SHALLOW TRUE)
+    GIT_SHALLOW TRUE
+    SOURCE_SUBDIR cmake)
 
 FetchContent_MakeAvailable(glad)
+
+glad_add_library(glad STATIC REPRODUCIBLE LOADER API gl:core=4.1)
 
 # glm
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG 1.0.1
+    GIT_TAG 1.0.2
     GIT_PROGRESS TRUE
     GIT_SHALLOW TRUE)
 

@@ -4,7 +4,7 @@
 #include "plane_model.hpp"
 #include "shader.hpp"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <reactphysics3d/reactphysics3d.h>
@@ -121,7 +121,8 @@ int main()
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    int version = gladLoadGL(glfwGetProcAddress);
+    if (version == 0)
     {
         std::cerr << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
         return -1;
